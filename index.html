@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convênio MultiPDV · Demonstração</title>
+<meta name="description" content="Baixe a versão de demonstração do Convênio MultiPDV: gestão de convênios entre farmácias e empresas, com módulo de administração, módulo de loja e portal do funcionário. Dados 100% fictícios.">
+<meta property="og:title" content="Convênio MultiPDV · versão de demonstração">
+<meta property="og:description" content="Gestão de convênios farmácia–empresa: administração, loja e portal do funcionário. Baixe e rode no seu computador, com dados fictícios.">
+<meta property="og:image" content="img/01-inicio.png">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a4a8a'/%3E%3Ctext x='16' y='20.5' font-family='monospace' font-size='11' font-weight='700' fill='white' text-anchor='middle'%3EMP2%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #f4f3f0; --surface: #ffffff; --surface-2: #faf9f7; --border: #e2e0da;
+  --text: #1a1917; --text-2: #5f5c55; --muted: #8f8c85;
+  --accent: #1a4a8a; --accent-hover: #153c72; --accent-light: #e8eef7; --on-accent: #ffffff;
+  --ok: #23744a; --ok-light: #eaf4ef; --warn: #8a6200; --warn-light: #fef8e8;
+  --radius: 10px; --shadow: 0 1px 2px rgba(26,25,23,.04), 0 8px 24px rgba(26,25,23,.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141412; --surface: #1d1d1a; --surface-2: #232320; --border: #34332f;
+    --text: #efeee9; --text-2: #b4b1a8; --muted: #85827a;
+    --accent: #7da7e6; --accent-hover: #9dbdee; --accent-light: #1d2a3d; --on-accent: #0f1c30;
+    --ok: #7cc79d; --ok-light: #1b2b22; --warn: #e2b95a; --warn-light: #2c2617;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141412; --surface: #1d1d1a; --surface-2: #232320; --border: #34332f;
+  --text: #efeee9; --text-2: #b4b1a8; --muted: #85827a;
+  --accent: #7da7e6; --accent-hover: #9dbdee; --accent-light: #1d2a3d; --on-accent: #0f1c30;
+  --ok: #7cc79d; --ok-light: #1b2b22; --warn: #e2b95a; --warn-light: #2c2617;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: var(--accent); }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 720px) { .wrap { padding: 0 32px; } }
+
+/* topo */
+header.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+header.top .wrap { display: flex; align-items: center; gap: 12px; height: 60px; }
+.logo { width: 32px; height: 32px; border-radius: 7px; background: #1a4a8a; color: #fff; display: grid; place-items: center; font: 700 11px 'IBM Plex Mono', monospace; flex: none; }
+.marca { line-height: 1.2; }
+.marca b { display: block; font-size: 15px; }
+.marca span { font-size: 12px; color: var(--muted); }
+nav.links { margin-left: auto; display: flex; gap: 4px; }
+nav.links a { color: var(--text-2); text-decoration: none; font-size: 14px; padding: 6px 10px; border-radius: 6px; }
+nav.links a:hover { background: var(--accent-light); color: var(--accent); }
+@media (max-width: 640px) { nav.links a.opc { display: none; } }
+
+/* abertura */
+.hero { padding: 64px 0 40px; display: grid; gap: 40px; }
+@media (min-width: 960px) { .hero { grid-template-columns: 1fr 1.15fr; align-items: center; padding: 80px 0 56px; } }
+.selo { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 500; color: var(--accent); background: var(--accent-light); padding: 4px 12px; border-radius: 99px; }
+.selo::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+h1 { font-size: clamp(32px, 5vw, 46px); line-height: 1.12; letter-spacing: -.02em; margin: 18px 0 16px; font-weight: 700; }
+.lead { font-size: 18px; color: var(--text-2); margin: 0 0 28px; max-width: 34em; }
+.acoes { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn { display: inline-flex; align-items: center; gap: 10px; font: 600 16px 'IBM Plex Sans', sans-serif; padding: 13px 22px; border-radius: 8px; text-decoration: none; border: 1px solid var(--border); color: var(--text); background: var(--surface); cursor: pointer; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primario { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn.primario:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--on-accent); }
+.btn[aria-disabled="true"] { opacity: .55; pointer-events: none; }
+.btn svg { width: 18px; height: 18px; }
+.versao { font-size: 13px; color: var(--muted); margin-top: 12px; }
+.janela { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+.janela .barra { display: flex; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.janela .barra i { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+
+/* avisos */
+.avisos { display: grid; gap: 12px; margin: 8px 0 24px; }
+@media (min-width: 720px) { .avisos { grid-template-columns: 1fr 1fr; } }
+.aviso { display: flex; gap: 12px; padding: 16px 18px; border-radius: var(--radius); font-size: 15px; border: 1px solid var(--border); background: var(--surface); }
+.aviso b { display: block; margin-bottom: 2px; }
+.aviso p { margin: 0; color: var(--text-2); }
+.aviso .ic { flex: none; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; }
+.aviso.ok .ic { background: var(--ok-light); color: var(--ok); }
+.aviso.warn .ic { background: var(--warn-light); color: var(--warn); }
+.aviso svg { width: 18px; height: 18px; }
+
+section { padding: 56px 0; }
+section + section { border-top: 1px solid var(--border); }
+h2 { font-size: clamp(24px, 3.4vw, 30px); letter-spacing: -.01em; margin: 0 0 8px; }
+.sub { color: var(--text-2); margin: 0 0 32px; max-width: 42em; }
+
+/* módulos */
+.modulos { display: grid; gap: 16px; }
+@media (min-width: 720px) { .modulos { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1040px) { .modulos { grid-template-columns: repeat(4, 1fr); } }
+.modulo { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+.modulo .ic { width: 40px; height: 40px; border-radius: 9px; background: var(--accent-light); color: var(--accent); display: grid; place-items: center; margin-bottom: 14px; }
+.modulo .ic svg { width: 20px; height: 20px; }
+.modulo h3 { font-size: 17px; margin: 0 0 6px; }
+.modulo p { margin: 0 0 12px; color: var(--text-2); font-size: 15px; }
+.modulo ul { margin: 0; padding-left: 18px; color: var(--text-2); font-size: 14px; }
+.modulo li { margin: 2px 0; }
+
+/* telas */
+.abas { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.abas button { font: 500 14px 'IBM Plex Sans', sans-serif; padding: 7px 14px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); cursor: pointer; }
+.abas button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.galeria { display: grid; gap: 20px; }
+@media (min-width: 720px) { .galeria { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1040px) { .galeria { grid-template-columns: repeat(3, 1fr); } }
+.galeria figure { margin: 0; }
+.galeria figure[hidden] { display: none; }
+.galeria button.foto { all: unset; display: block; cursor: zoom-in; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); width: 100%; }
+.galeria button.foto:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.galeria img { aspect-ratio: 16/9; object-fit: cover; object-position: top left; width: 100%; }
+.galeria figcaption { font-size: 14px; color: var(--text-2); margin-top: 8px; }
+.galeria figcaption b { color: var(--text); font-weight: 600; }
+dialog { border: none; padding: 0; background: transparent; max-width: min(1280px, 96vw); }
+dialog::backdrop { background: rgba(10,10,9,.82); }
+dialog img { border-radius: 8px; max-height: 86vh; width: auto; }
+dialog p { color: #eee; text-align: center; margin: 10px 0 0; font-size: 14px; }
+
+/* instalação */
+.passos { display: grid; gap: 16px; counter-reset: passo; padding: 0; margin: 0; list-style: none; }
+@media (min-width: 860px) { .passos { grid-template-columns: repeat(3, 1fr); } }
+.passos li { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; counter-increment: passo; }
+.passos li::before { content: counter(passo); display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-weight: 700; font-size: 14px; margin-bottom: 12px; }
+.passos h3 { margin: 0 0 6px; font-size: 16px; }
+.passos p { margin: 0; color: var(--text-2); font-size: 15px; }
+code { font: 500 13.5px 'IBM Plex Mono', monospace; background: var(--surface-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 5px; }
+.req { margin-top: 20px; font-size: 14px; color: var(--text-2); }
+
+/* tecnologia */
+.tec { display: flex; flex-wrap: wrap; gap: 8px; }
+.tec span { font-size: 14px; padding: 6px 12px; border-radius: 99px; background: var(--surface); border: 1px solid var(--border); }
+
+footer { border-top: 1px solid var(--border); padding: 32px 0 48px; font-size: 14px; color: var(--muted); }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; }
+footer a { color: var(--text-2); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="logo" aria-hidden="true">MP2</div>
+    <div class="marca"><b>Convênio MultiPDV</b><span>Versão de demonstração</span></div>
+    <nav class="links" aria-label="Seções">
+      <a href="#modulos" class="opc">Módulos</a>
+      <a href="#telas" class="opc">Telas</a>
+      <a href="#instalar">Instalar</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <span class="selo">Demonstração gratuita</span>
+        <h1>Convênios entre farmácias e empresas, do cadastro à fatura.</h1>
+        <p class="lead">O Convênio MultiPDV controla limites, compras e fechamentos dos funcionários conveniados e gera o faturamento da rede. Baixe a demonstração e use no seu computador, com uma rede de drogarias fictícia já carregada.</p>
+        <div class="acoes">
+          <a class="btn primario" id="baixar" href="#instalar" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            <span id="baixar-texto">Download em breve</span>
+          </a>
+          <a class="btn" href="#telas">Ver as telas</a>
+        </div>
+        <div class="versao" id="versao">A primeira versão está em preparação.</div>
+      </div>
+      <div class="janela" aria-hidden="true">
+        <div class="barra"><i></i><i></i><i></i></div>
+        <img src="img/01-inicio.png" alt="" width="1280" height="720">
+      </div>
+    </div>
+
+    <div class="avisos">
+      <div class="aviso ok">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div><b>Só dados fictícios</b><p>A rede “Drogaria Demonstração”, os funcionários, as empresas e as vendas foram gerados para a demonstração. Nenhum dado real.</p></div>
+      </div>
+      <div class="aviso warn">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg></div>
+        <div><b>Sem o autorizador</b><p>A integração com os PDVs das lojas (API do autorizador) não faz parte da demonstração. As vendas de exemplo já vêm carregadas.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="modulos">
+    <div class="wrap">
+      <h2>O que vem na demonstração</h2>
+      <p class="sub">Quatro áreas do sistema, cada uma com o seu público. Tudo roda no navegador.</p>
+      <div class="modulos">
+        <article class="modulo">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 14h4"/></svg></div>
+          <h3>Administração</h3>
+          <p>Para a equipe que administra os convênios.</p>
+          <ul><li>Empresas, funcionários e dependentes</li><li>Regras de desconto e limites</li><li>Monitor de vendas e autorização manual</li><li>Fechamento, faturamento e relatórios</li></ul>
+        </article>
+        <article class="modulo">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 5 4h14l2 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></div>
+          <h3>Loja</h3>
+          <p>Para o balcão de cada filial.</p>
+          <ul><li>Autorização manual da própria loja</li><li>Vendas da loja e detalhes</li><li>Acesso só às lojas vinculadas</li></ul>
+        </article>
+        <article class="modulo">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+          <h3>Portal do funcionário</h3>
+          <p>Feito para o celular.</p>
+          <ul><li>Saldo disponível no mês</li><li>Extrato e compras com os produtos</li><li>Dependentes incluídos</li></ul>
+        </article>
+        <article class="modulo">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg></div>
+          <h3>Portal da rede</h3>
+          <p>Para a direção da rede de drogarias.</p>
+          <ul><li>Vendas por dia, convênio e loja</li><li>Faturas do serviço</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="telas">
+    <div class="wrap">
+      <h2>Telas</h2>
+      <p class="sub">Capturas da própria demonstração. Clique para ampliar.</p>
+      <div class="abas" role="tablist" aria-label="Filtrar telas">
+        <button role="tab" aria-selected="true" data-filtro="todas">Todas</button>
+        <button role="tab" aria-selected="false" data-filtro="admin">Administração</button>
+        <button role="tab" aria-selected="false" data-filtro="fin">Fechamento e faturamento</button>
+        <button role="tab" aria-selected="false" data-filtro="portal">Portais</button>
+      </div>
+      <div class="galeria" id="galeria"></div>
+    </div>
+  </section>
+
+  <section id="instalar">
+    <div class="wrap">
+      <h2>Como instalar</h2>
+      <p class="sub">A demonstração roda inteira no seu computador, sem enviar nada para a internet.</p>
+      <ol class="passos">
+        <li><h3>Baixe o pacote</h3><p>Use o botão de download no topo da página. O arquivo vem compactado.</p></li>
+        <li><h3>Instale e inicie</h3><p>Descompacte e siga o arquivo <code>LEIA-ME</code> do pacote. A primeira vez leva alguns minutos.</p></li>
+        <li><h3>Entre no sistema</h3><p>O navegador abre na administração. O usuário e a senha de demonstração estão no <code>LEIA-ME</code>.</p></li>
+      </ol>
+      <p class="req">Os requisitos e o passo a passo detalhado chegam junto com a primeira versão.</p>
+    </div>
+  </section>
+
+  <section id="tecnologia">
+    <div class="wrap">
+      <h2>Por dentro</h2>
+      <p class="sub">Sistema reescrito a partir de uma aplicação Delphi em produção, com o mesmo comportamento e as regras de negócio preservadas.</p>
+      <div class="tec">
+        <span>.NET 10</span><span>ASP.NET Core</span><span>Razor Pages</span><span>Entity Framework Core</span><span>PostgreSQL 17</span><span>Multiempresa</span><span>Docker</span><span>Caddy</span><span>GitHub Actions</span><span>Azure (Bicep)</span><span>xUnit</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Convênio MultiPDV · versão de demonstração com dados fictícios</span>
+    <span>Desenvolvido por <a href="https://www.linkedin.com/in/marcus-lima-arruda-b2076016/" target="_blank" rel="noopener">Marcus Lima Arruda</a></span>
+  </div>
+</footer>
+
+<dialog id="zoom" aria-label="Tela ampliada"><img id="zoom-img" alt=""><p id="zoom-txt"></p></dialog>
+
+<script>
+// Repositório público onde ficam as versões (Releases). Ajuste se o nome mudar.
+const REPO = 'marcuslimaarruda/convenio-multipdv-demo';
+
+const telas = [
+  ['01-inicio', 'admin', 'Início da administração', 'atalhos para os cadastros da rede'],
+  ['05-funcionarios', 'admin', 'Funcionários', 'busca por convênio, nome ou matrícula'],
+  ['06-funcionario', 'admin', 'Ficha do funcionário', 'limite, saldo e dependentes'],
+  ['07-regra', 'admin', 'Regra de convênio', 'descontos e subsídios por grupo de produto'],
+  ['09-monitor', 'admin', 'Monitor de vendas', 'acompanhamento das vendas em tempo real'],
+  ['19-relatorios', 'admin', 'Relatórios', 'vendas, convênios e funcionários'],
+  ['20-configuracoes', 'admin', 'Configurações do sistema', 'regras de senha, sessão e faturamento'],
+  ['12-fechamento', 'fin', 'Fechamento do convênio', 'fecha o mês de cada empresa'],
+  ['13-faturamento', 'fin', 'Faturamento', 'cobrança das empresas conveniadas'],
+  ['15-administradora-fatura', 'fin', 'Fatura da administradora', 'fechamento mensal do serviço'],
+  ['22-portal-inicio', 'portal', 'Portal do funcionário', 'saldo do mês no celular'],
+  ['23-portal-compras', 'portal', 'Compras', 'cada compra com os produtos'],
+  ['24-portal-extrato', 'portal', 'Extrato', 'movimento do funcionário e dependentes'],
+  ['25-rede-painel', 'portal', 'Painel da rede', 'vendas por dia, convênio e loja'],
+  ['26-rede-faturas', 'portal', 'Faturas da rede', 'faturas do serviço por mês'],
+];
+
+const gal = document.getElementById('galeria');
+const zoom = document.getElementById('zoom');
+for (const [arq, grupo, titulo, desc] of telas) {
+  const f = document.createElement('figure');
+  f.dataset.grupo = grupo;
+  f.innerHTML = `<button class="foto" type="button" aria-label="Ampliar: ${titulo}"><img src="img/${arq}.png" alt="${titulo}: ${desc}" loading="lazy" width="1280" height="720"></button>
+    <figcaption><b>${titulo}</b> · ${desc}</figcaption>`;
+  f.querySelector('button').addEventListener('click', () => {
+    document.getElementById('zoom-img').src = `img/${arq}.png`;
+    document.getElementById('zoom-img').alt = titulo;
+    document.getElementById('zoom-txt').textContent = `${titulo} · ${desc}`;
+    zoom.showModal();
+  });
+  gal.appendChild(f);
+}
+zoom.addEventListener('click', () => zoom.close());
+
+document.querySelectorAll('.abas button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.abas button').forEach(x => x.setAttribute('aria-selected', x === b));
+  const filtro = b.dataset.filtro;
+  gal.querySelectorAll('figure').forEach(f => f.hidden = filtro !== 'todas' && f.dataset.grupo !== filtro);
+}));
+
+// Liga o botão quando existir uma versão publicada no GitHub Releases.
+(async () => {
+  try {
+    const r = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
+    if (!r.ok) return;
+    const rel = await r.json();
+    const pacote = (rel.assets || []).find(a => /\.(zip|exe|msi)$/i.test(a.name));
+    const btn = document.getElementById('baixar');
+    btn.href = pacote ? pacote.browser_download_url : rel.html_url;
+    btn.removeAttribute('aria-disabled');
+    document.getElementById('baixar-texto').textContent = 'Baixar a demonstração';
+    const tam = pacote ? ` · ${(pacote.size / 1048576).toFixed(0)} MB` : '';
+    const data = new Date(rel.published_at).toLocaleDateString('pt-BR');
+    document.getElementById('versao').textContent = `Versão ${rel.tag_name} · ${data}${tam}`;
+  } catch { /* sem versão publicada: fica "em breve" */ }
+})();
+</script>
+</body>
+</html>
