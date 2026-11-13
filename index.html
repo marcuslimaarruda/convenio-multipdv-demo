@@ -111,17 +111,37 @@ h2 { font-size: clamp(24px, 3.4vw, 30px); letter-spacing: -.01em; margin: 0 0 8p
 .galeria { display: grid; gap: 20px; }
 @media (min-width: 720px) { .galeria { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1040px) { .galeria { grid-template-columns: repeat(3, 1fr); } }
-.galeria figure { margin: 0; }
+.galeria figure { margin: 0; min-width: 0; }
 .galeria figure[hidden] { display: none; }
-.galeria button.foto { all: unset; display: block; cursor: zoom-in; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); width: 100%; }
+.galeria button.foto { display: block; width: 100%; padding: 0; margin: 0; font: inherit; background: var(--surface); cursor: zoom-in; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s; }
+.galeria button.foto:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(26,25,23,.06), 0 14px 32px rgba(26,25,23,.12); }
 .galeria button.foto:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.galeria img { aspect-ratio: 16/9; object-fit: cover; object-position: top left; width: 100%; }
+.galeria img { display: block; width: 100%; height: auto; aspect-ratio: 16/9; }
 .galeria figcaption { font-size: 14px; color: var(--text-2); margin-top: 8px; }
 .galeria figcaption b { color: var(--text); font-weight: 600; }
-dialog { border: none; padding: 0; background: transparent; max-width: min(1280px, 96vw); }
-dialog::backdrop { background: rgba(10,10,9,.82); }
-dialog img { border-radius: 8px; max-height: 86vh; width: auto; }
-dialog p { color: #eee; text-align: center; margin: 10px 0 0; font-size: 14px; }
+/* visualizador: ocupa a tela, rola por dentro, navega entre as telas */
+dialog#zoom { border: none; padding: 0; margin: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; background: #121211; color: #f2f1ed; }
+dialog#zoom::backdrop { background: rgba(12,12,11,.6); }
+dialog#zoom[open] { display: flex; flex-direction: column; }
+.zbarra { flex: none; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,.1); }
+.zbarra .ztit { flex: 1; min-width: 0; font-size: 14px; line-height: 1.35; }
+.zbarra .ztit b { display: block; font-size: 15px; }
+.zbarra .ztit span { color: #b9b6ae; }
+.zbtn { flex: none; display: grid; place-items: center; min-width: 40px; height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); color: #f2f1ed; font: 500 14px 'IBM Plex Sans', sans-serif; cursor: pointer; }
+.zbtn:hover { background: rgba(255,255,255,.14); }
+.zbtn svg { width: 20px; height: 20px; }
+.zcont { font-size: 13px; color: #b9b6ae; font-variant-numeric: tabular-nums; padding: 0 4px; }
+.zarea { flex: 1; overflow: auto; overscroll-behavior: contain; display: grid; place-items: start center; padding: 16px; }
+.zarea img { width: 100%; max-width: 1280px; height: auto; border-radius: 6px; cursor: zoom-in; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+.zarea.real { place-items: start start; }
+.zarea.real img { width: 1280px; max-width: none; cursor: zoom-out; }
+@media (max-width: 720px) {
+  .zbarra { flex-wrap: wrap; }
+  .zbarra .ztit { flex-basis: 100%; }
+  .zcont { margin-right: auto; }
+  .zarea { padding: 10px; }
+}
+body.travado { overflow: hidden; }
 
 /* instalação */
 .passos { display: grid; gap: 16px; counter-reset: passo; padding: 0; margin: 0; list-style: none; }
@@ -268,7 +288,17 @@ footer a { color: var(--text-2); }
   </div>
 </footer>
 
-<dialog id="zoom" aria-label="Tela ampliada"><img id="zoom-img" alt=""><p id="zoom-txt"></p></dialog>
+<dialog id="zoom" aria-label="Tela ampliada">
+  <div class="zbarra">
+    <div class="ztit"><b id="zoom-tit"></b><span id="zoom-desc"></span></div>
+    <span class="zcont" id="zoom-cont"></span>
+    <button class="zbtn" type="button" id="zoom-ant" aria-label="Tela anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button class="zbtn" type="button" id="zoom-prox" aria-label="Próxima tela"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+    <button class="zbtn" type="button" id="zoom-real" aria-pressed="false" title="Alternar entre caber na janela e tamanho real">Tamanho real</button>
+    <button class="zbtn" type="button" id="zoom-fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+  </div>
+  <div class="zarea" id="zoom-area"><img id="zoom-img" alt="" width="1280" height="720"></div>
+</dialog>
 
 <script>
 // Repositório público onde ficam as versões (Releases). Ajuste se o nome mudar.
@@ -299,15 +329,56 @@ for (const [arq, grupo, titulo, desc] of telas) {
   f.dataset.grupo = grupo;
   f.innerHTML = `<button class="foto" type="button" aria-label="Ampliar: ${titulo}"><img src="img/${arq}.png" alt="${titulo}: ${desc}" loading="lazy" width="1280" height="720"></button>
     <figcaption><b>${titulo}</b> · ${desc}</figcaption>`;
-  f.querySelector('button').addEventListener('click', () => {
-    document.getElementById('zoom-img').src = `img/${arq}.png`;
-    document.getElementById('zoom-img').alt = titulo;
-    document.getElementById('zoom-txt').textContent = `${titulo} · ${desc}`;
-    zoom.showModal();
-  });
+  f.querySelector('button').addEventListener('click', () => abrir(f));
   gal.appendChild(f);
 }
-zoom.addEventListener('click', () => zoom.close());
+
+// ---- visualizador
+const area = document.getElementById('zoom-area');
+const zimg = document.getElementById('zoom-img');
+const btnReal = document.getElementById('zoom-real');
+let atual = null;
+const visiveis = () => [...gal.querySelectorAll('figure')].filter(f => !f.hidden);
+function mostrar(f) {
+  atual = f;
+  const t = telas[[...gal.children].indexOf(f)];
+  zimg.src = `img/${t[0]}.png`; zimg.alt = `${t[2]}: ${t[3]}`;
+  document.getElementById('zoom-tit').textContent = t[2];
+  document.getElementById('zoom-desc').textContent = t[3];
+  const v = visiveis();
+  document.getElementById('zoom-cont').textContent = `${v.indexOf(f) + 1} de ${v.length}`;
+  area.scrollTo(0, 0);
+}
+function abrir(f) {
+  if (area.classList.contains('real')) alternarReal();  // sempre abre cabendo na janela
+  mostrar(f); document.body.classList.add('travado'); zoom.showModal(); area.focus(); }
+function passo(d) { const v = visiveis(); mostrar(v[(v.indexOf(atual) + d + v.length) % v.length]); }
+function alternarReal() {
+  const real = area.classList.toggle('real');
+  btnReal.setAttribute('aria-pressed', real);
+  btnReal.textContent = real ? 'Caber na janela' : 'Tamanho real';
+}
+area.tabIndex = -1;
+document.getElementById('zoom-ant').addEventListener('click', () => passo(-1));
+document.getElementById('zoom-prox').addEventListener('click', () => passo(1));
+document.getElementById('zoom-fechar').addEventListener('click', () => zoom.close());
+btnReal.addEventListener('click', alternarReal);
+zimg.addEventListener('click', alternarReal);
+area.addEventListener('click', e => { if (e.target === area) zoom.close(); });
+zoom.addEventListener('close', () => document.body.classList.remove('travado'));
+zoom.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') { e.preventDefault(); passo(-1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); passo(1); }
+});
+// deslizar o dedo para os lados no celular troca de tela (só no modo "caber na janela")
+let x0 = null;
+area.addEventListener('touchstart', e => { x0 = area.classList.contains('real') ? null : e.touches[0].clientX; }, { passive: true });
+area.addEventListener('touchend', e => {
+  if (x0 === null) return;
+  const dx = e.changedTouches[0].clientX - x0;
+  if (Math.abs(dx) > 60) passo(dx < 0 ? 1 : -1);
+  x0 = null;
+});
 
 document.querySelectorAll('.abas button').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('.abas button').forEach(x => x.setAttribute('aria-selected', x === b));
